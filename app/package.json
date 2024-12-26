@@ -1,0 +1,48 @@
+{
+  "name": "LibreSession",
+  "version": "1.0.0",
+  "description": "TodoAndPomodoro",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "npx electron-builder build"
+  },
+  "build": {
+    "appId": "com.electron.libreSession",
+    "copyright": "none",
+    "productName": "LibreSession",
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "directories": {
+    "output": "Dist",
+    "buildResources": "Icons"
+  }
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "win": {
+    "asar": false,
+    "target": "nsis",
+    "icon": "Icons/icon.ico"
+  },
+  "nsis": {
+      "installerIcon": "Icons/baseIcon.png",
+      "installerHeaderIcon": "Icons/baseIcon.png",
+      "deleteAppDataOnUninstall": true
+    },
+  "linux": {
+    "icon": "build/icon.png"
+  },
+  "mac": {
+    "icon": "build/icon.png"
+  },
+  "author": "truemorad",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "electron-packager": "^17.1.2"
+  }
+}

@@ -1,0 +1,87 @@
+:root{
+    --bk: rgba(0, 0, 0, 0.9);
+    --bg: rgb(230, 230, 230);
+    --bg-tt: color-mix(in srgb, var(--bg), rgba(230, 230, 230, 0) 80%);
+    --etc: rgb(219, 14, 185);
+    --btn: color-mix( in srgb, var(--bg-tt), var(--bk) 10%);
+    --btn-hvr: color-mix( in srgb, var(--bg-tt), var(--bk) 20%);
+    --rad: 20px;
+    --per-mg: calc(var(--margin) / 2);
+    --margin: 10px;
+    --ui-height: 40px;
+    --in-title: calc(var(--ui-height) - var(--margin));
+}
+/* UI */
+titleBar{
+    position: fixed;
+    top: env(titlebar-area-y, 0);
+    height: env(titlebar-area-height, var(--ui-height));
+    left: env(titlebar-area-x, 0);
+    width: env(titlebar-area-width, 100%);
+    app-region: drag;
+    -webkit-app-region: drag;
+    background: var(--bg-tt);
+    backdrop-filter: blur(5px);
+    border-bottom: solid 1px var(--btn);
+    box-shadow: 0px 0px 10px 0px var(--btn);
+}
+#logo{
+    top: var(--per-mg);
+    margin-left: var(--per-mg);
+    fill: var(--etc);
+    height: 100%;
+}
+#baka {
+    fill: var(--btn);
+}
+#stop1{
+    stop-color: rgb(238, 129, 241);
+}
+#stop2{
+    stop-color: rgb(79, 150, 207);
+}
+btns{
+    position: fixed;
+    top: var(--per-mg);
+    right: var(--per-mg);
+    app-region: no-drag;
+    -webkit-app-region: no-drag;
+}
+btns button{
+    height: var(--in-title);
+    width: var(--in-title);
+    border: none;
+    background: var(--btn);
+    border-radius: var(--rad);
+    fill: var(--acc);
+    cursor: pointer;
+}
+btns button:hover{
+    background: var(--btn-hvr);
+}
+/* site */
+.toolbar{
+    position: fixed;
+    margin-left: 15%;
+    width: 70%;
+    bottom: 20px;
+    height: var(--ui-height);
+    background: var(--btn);
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 0px 10px 0px var(--btn);
+    border-radius: var(--rad);
+}
+.tool-btn {
+    background: none;
+    border: none;
+    
+}
+html, body, .main{
+    padding-top: calc(var(--margin) + 5px);
+    background: var(--bg);
+}
+
+/* boot strap fixes */
+.no-margin {
+    margin: 0px !important;
+}

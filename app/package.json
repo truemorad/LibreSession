@@ -19,9 +19,6 @@
     "buildResources": "Icons"
   }
   },
-  "files": [
-    "dist/**/*"
-  ],
   "win": {
     "asar": false,
     "target": "nsis",
@@ -39,10 +36,9 @@
     "icon": "build/icon.png"
   },
   "author": "truemorad",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "devDependencies": {
     "electron": "^33.2.1",
-    "electron-builder": "^25.1.8",
-    "electron-packager": "^17.1.2"
+    "electron-builder": "^25.1.8"
   }
 }

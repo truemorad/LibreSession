@@ -2,7 +2,6 @@ const { app, nativeImage, BrowserWindow, Tray, Menu, ipcMain} = require('electro
 const path = require('node:path');
 
 let mainWindow;
-let tray = null;
 // main window
 app.on('ready',() => {
   mainWindow = new BrowserWindow({
@@ -10,28 +9,18 @@ app.on('ready',() => {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      icon: path.join(__dirname, '/Icons/baseIcon.png'),
       contextIsolation: true
     },
     frame: false
   })
   // load html
   mainWindow.loadFile('index.html')
-  // Create the tray icon
-  const iconPath = path.join(__dirname, './src/images/icon.png');
-  tray = new Tray(iconPath);
-
-  // Set tooltip text
-  tray.setToolTip('My Electron App');
 
   // Create a context menu
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Show App', click: () => mainWindow.show() },
     { label: 'Quit', click: () => app.quit() },
   ]);
-
-  // Attach the context menu to the tray
-  tray.setContextMenu(contextMenu);
 });
 
 // close app when there is no windows

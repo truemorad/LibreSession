@@ -25,8 +25,7 @@
     "icon": "Icons/icon.ico"
   },
   "nsis": {
-      "installerIcon": "Icons/baseIcon.png",
-      "installerHeaderIcon": "Icons/baseIcon.png",
+      "installerIcon": "Icons/Icon.png",
       "deleteAppDataOnUninstall": true
     },
   "linux": {

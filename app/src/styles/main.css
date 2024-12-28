@@ -34,14 +34,9 @@ titleBar{
 #baka {
     fill: var(--btn);
 }
-#stop1{
-    stop-color: rgb(238, 129, 241);
-}
-#stop2{
-    stop-color: rgb(79, 150, 207);
-}
 btns{
     position: fixed;
+    user-select: none;
     top: var(--per-mg);
     right: var(--per-mg);
     app-region: no-drag;
@@ -50,14 +45,18 @@ btns{
 btns button{
     height: var(--in-title);
     width: var(--in-title);
-    border: none;
     background: var(--btn);
     border-radius: var(--rad);
     fill: var(--acc);
+    border: none;
     cursor: pointer;
 }
 btns button:hover{
     background: var(--btn-hvr);
+}
+btns button svg {
+    fill: var(--etc);
+    transform: translate(-5px, 0px);
 }
 /* site */
 .toolbar{

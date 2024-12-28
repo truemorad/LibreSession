@@ -53,6 +53,7 @@ btns button{
 }
 btns button:hover{
     background: var(--btn-hvr);
+    transition: ease-in 0.1s;
 }
 btns button svg {
     fill: var(--etc);

@@ -1,5 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
+// All of the Node.js APIs are available in the preload process only.
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector, text) => {
       const element = document.getElementById(selector)
@@ -10,6 +11,10 @@ window.addEventListener('DOMContentLoaded', () => {
       replaceText(`${dependency}-version`, process.versions[dependency])
     }
   });
-  contextBridge.exposeInMainWorld('electronAPI', {
-    sendWindowAction: (action) => ipcRenderer.send('window-action', action),
-  });
+  // electron bridge
+contextBridge.exposeInMainWorld('electronAPI', {
+  sendWindowAction: async (action) => {
+    const result = await ipcRenderer.invoke('window-action', action)
+    return result;
+  }
+});

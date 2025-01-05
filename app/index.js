@@ -14,7 +14,7 @@ app.on('ready', () => {
     frame: false
   });
   // load html
-  mainWindow.loadFile('index.html');
+  mainWindow.loadFile('src/index.html');
 });
 // close app when there is no windows
 app.on('window-all-closed', () => {

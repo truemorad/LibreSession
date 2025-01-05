@@ -1,18 +1,20 @@
 :root{
-    --bk: rgba(0, 0, 0, 0.9);
+    --pm: rgba(0, 0, 0);
     --bg: rgb(230, 230, 230);
     --bg-tt: color-mix(in srgb, var(--bg), rgba(230, 230, 230, 0) 80%);
-    --etc: rgb(219, 14, 185);
-    --btn: color-mix( in srgb, var(--bg-tt), var(--bk) 10%);
-    --btn-hvr: color-mix( in srgb, var(--bg-tt), var(--bk) 20%);
+    --acc: rgb(219, 14, 185);
+    --acc-darken: color-mix( in srgb, var(--acc), rgb(0, 0, 0) 20%);
+    --btn: color-mix( in srgb, var(--bg-tt), var(--pm) 10%);
+    --btn-hvr: color-mix( in srgb, var(--bg-tt), var(--pm) 20%);
     --rad: 20px;
     --per-mg: calc(var(--margin) / 2);
     --margin: 10px;
     --ui-height: 40px;
     --in-title: calc(var(--ui-height) - var(--margin));
+    --ease: ease-in 0.1s;
 }
 /* UI */
-titleBar{
+titleBar {
     position: fixed;
     top: env(titlebar-area-y, 0);
     height: env(titlebar-area-height, var(--ui-height));
@@ -28,13 +30,13 @@ titleBar{
 #logo{
     top: var(--per-mg);
     margin-left: var(--per-mg);
-    fill: var(--etc);
+    fill: var(--acc);
     height: 100%;
 }
 #baka {
     fill: var(--btn);
 }
-btns{
+btns {
     position: fixed;
     user-select: none;
     top: var(--per-mg);
@@ -42,7 +44,7 @@ btns{
     app-region: no-drag;
     -webkit-app-region: no-drag;
 }
-btns button{
+btns button {
     height: var(--in-title);
     width: var(--in-title);
     background: var(--btn);
@@ -51,37 +53,72 @@ btns button{
     border: none;
     cursor: pointer;
 }
-btns button:hover{
+btns button:hover {
     background: var(--btn-hvr);
-    transition: ease-in 0.1s;
+    transition: var(--ease);
 }
 btns button svg {
-    fill: var(--etc);
+    fill: var(--acc);
     transform: translate(-5px, 0px);
 }
 /* site */
-.toolbar{
+html, body, .main{
+    padding-top: calc(var(--margin) + 5px);
+    background: var(--bg);
+}
+/* boot strap fixes */
+.no-margin {
+    margin: 0px !important;
+}
+/* options page */
+.optionsPage {
     position: fixed;
-    margin-left: 15%;
-    width: 70%;
-    bottom: 20px;
+    display: absolute;
+    animation: pop 1s;
+    height: 40%;
+    width: 100%;
+    bottom: 0rem;
+    padding: var(--margin);
+    background: var(--bg-tt);
+    backdrop-filter: blur(5px);
+    border-top: solid 1px var(--btn);
+    box-shadow: 0px 0px 10px 0px var(--btn);
+    border-radius: var(--rad) var(--rad) 0px 0px;
+}
+.fadeOut {
+    transition: ease-out 3s;
+}
+@keyframes pop {
+	from { height: 0%; }
+	to { height: 40%; }
+}
+/* toolbar */
+.toolbar{
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    position: fixed;
+    width: 100%;
+    bottom: 1rem;
+}
+.btnBar{
+    width: fit-content;
     height: var(--ui-height);
     background: var(--btn);
     backdrop-filter: blur(5px);
     box-shadow: 0px 0px 10px 0px var(--btn);
     border-radius: var(--rad);
+    user-select: none;
 }
-.tool-btn {
+.btnBar button {
     background: none;
     border: none;
-    
+    margin-top: var(--per-mg);
+    fill: var(--acc);
 }
-html, body, .main{
-    padding-top: calc(var(--margin) + 5px);
-    background: var(--bg);
+.btnBar button:hover {
+    fill: var(--acc-darken);
+    transition: var(--ease);
 }
-
-/* boot strap fixes */
-.no-margin {
-    margin: 0px !important;
+.hidden {
+    opacity: 0;
 }

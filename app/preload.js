@@ -1,16 +1,15 @@
 const { contextBridge, ipcRenderer } = require('electron');
-
 // All of the Node.js APIs are available in the preload process only.
-window.addEventListener('DOMContentLoaded', () => {
-    const replaceText = (selector, text) => {
-      const element = document.getElementById(selector)
-      if (element) element.innerText = `(${text})`
-    }
+// window.addEventListener('DOMContentLoaded', () => {
+//     const replaceText = (selector, text) => {
+//       const element = document.getElementById(selector)
+//       if (element) element.innerText = `(${text})`
+//     }
   
-    for (const dependency of ['chrome', 'node', 'electron']) {
-      replaceText(`${dependency}-version`, process.versions[dependency])
-    }
-  });
+//     for (const dependency of ['chrome', 'node', 'electron']) {
+//       replaceText(`${dependency}-version`, process.versions[dependency])
+//     }
+//   });
   // electron bridge
 contextBridge.exposeInMainWorld('electronAPI', {
   sendWindowAction: async (action) => {

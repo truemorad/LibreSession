@@ -1,17 +1,20 @@
 :root{
-    --pm: rgba(0, 0, 0);
-    --bg: rgb(230, 230, 230);
-    --bg-tt: color-mix(in srgb, var(--bg), rgba(230, 230, 230, 0) 80%);
-    --acc: rgb(219, 14, 185);
-    --acc-darken: color-mix( in srgb, var(--acc), rgb(0, 0, 0) 20%);
-    --btn: color-mix( in srgb, var(--bg-tt), var(--pm) 10%);
-    --btn-hvr: color-mix( in srgb, var(--bg-tt), var(--pm) 20%);
+    --pm: rgb(255, 255, 255);
+    --bgColor: rgb(41, 41, 41);
+    --bg-tt: color-mix(in srgb, var(--bgColor), rgba(40, 40, 40, 0.4) 80%);
+    --accColor: rgb(219, 14, 185);
+    --acc-btn: color-mix( in srgb, var(--accColor), var(--pm) 20%);
+    --acc-mixed: color-mix( in srgb, var(--accColor), var(--pm) 10%);
+    --btn: color-mix( in srgb, rgba(0, 0, 0, 0), var(--pm) 10%);
+    --btn-hvr: color-mix( in srgb, rgba(0, 0, 0, 0), var(--pm) 20%);
+    --outline: 0px 1px 1px 1px var(--btn);
     --rad: 20px;
     --per-mg: calc(var(--margin) / 2);
     --margin: 10px;
     --ui-height: 40px;
     --in-title: calc(var(--ui-height) - var(--margin));
-    --ease: ease-in 0.1s;
+    --easeIn: ease-in 0.2s;
+    --easeOut: ease-out 0.2s;
 }
 /* UI */
 titleBar {
@@ -23,18 +26,17 @@ titleBar {
     app-region: drag;
     -webkit-app-region: drag;
     background: var(--bg-tt);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(20px);
     border-bottom: solid 1px var(--btn);
-    box-shadow: 0px 0px 10px 0px var(--btn);
 }
 #logo{
     top: var(--per-mg);
     margin-left: var(--per-mg);
-    fill: var(--acc);
+    fill: var(--acc-btn);
     height: 100%;
 }
 #baka {
-    fill: var(--btn);
+    fill: var(--acc-btn);
 }
 btns {
     position: fixed;
@@ -49,48 +51,32 @@ btns button {
     width: var(--in-title);
     background: var(--btn);
     border-radius: var(--rad);
-    fill: var(--acc);
     border: none;
     cursor: pointer;
+    transition: var(--easeOut);
 }
 btns button:hover {
     background: var(--btn-hvr);
-    transition: var(--ease);
+    transition: var(--easeIn);
 }
 btns button svg {
-    fill: var(--acc);
+    fill: var(--acc-btn);
     transform: translate(-5px, 0px);
 }
 /* site */
-html, body, .main{
-    padding-top: calc(var(--margin) + 5px);
-    background: var(--bg);
+html, body {
+    padding-top: calc(var(--margin) * 2);
+    background: var(--bgColor);
+    overflow: hidden;
 }
-/* boot strap fixes */
-.no-margin {
-    margin: 0px !important;
+h1 {
+    color: var(--pm);
 }
-/* options page */
-.optionsPage {
-    position: fixed;
-    display: absolute;
-    animation: pop 1s;
-    height: 40%;
-    width: 100%;
-    bottom: 0rem;
-    padding: var(--margin);
-    background: var(--bg-tt);
-    backdrop-filter: blur(5px);
-    border-top: solid 1px var(--btn);
-    box-shadow: 0px 0px 10px 0px var(--btn);
-    border-radius: var(--rad) var(--rad) 0px 0px;
-}
-.fadeOut {
-    transition: ease-out 3s;
-}
-@keyframes pop {
-	from { height: 0%; }
-	to { height: 40%; }
+.main {
+    height: 93vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 /* toolbar */
 .toolbar{
@@ -102,10 +88,10 @@ html, body, .main{
 }
 .btnBar{
     width: fit-content;
-    height: var(--ui-height);
-    background: var(--btn);
-    backdrop-filter: blur(5px);
-    box-shadow: 0px 0px 10px 0px var(--btn);
+    height: fit-content;
+    background: var(--bg-tt);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--outline);
     border-radius: var(--rad);
     user-select: none;
 }
@@ -113,12 +99,69 @@ html, body, .main{
     background: none;
     border: none;
     margin-top: var(--per-mg);
-    fill: var(--acc);
+    margin-bottom: var(--per-mg);
+    size: 100px;
+    fill: var(--acc-btn);
+    padding-inline: 3px;
+    transition: var(--easeOut);
 }
 .btnBar button:hover {
-    fill: var(--acc-darken);
-    transition: var(--ease);
+    fill: var(--acc-mixed);
+    transform: translateY(-5px);
+    transition: var(--easeIn);
+}
+#vaultIMG{
+    margin-left: var(--per-mg);
+}
+#vaultIMG:hover{
+    transform: none;
+    animation: roll 0.5s;
+}
+@keyframes roll {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(45deg); }
+}
+#divider{
+    color: var(--acc-btn);
+    display: inline-block;
+}
+/* options page */
+.optionsPage {
+    position: fixed;
+    animation: pop 0.5s;
+    width: 10rem;
+    height: 100%;
+    right: 0rem;
+    bottom: 0rem;
+    top: env(titlebar-area-height, var(--ui-height));
+    padding: var(--margin);
+    background: var(--bg-tt);
+    backdrop-filter: blur(20px);
+    border-left: solid 1px var(--btn);
+}
+@keyframes pop {
+	from { width: 0rem; }
+	to { width: 10rem; }
+}
+.options {
+    margin-right: var(--per-mg);
+}
+/* fixes */
+.no-margin {
+    margin: 0px !important;
 }
 .hidden {
     opacity: 0;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--acc-btn);
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--acc-mixed);
+}
+::-webkit-scrollbar-track {
+    background-color: var(--btn);
 }

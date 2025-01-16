@@ -1,19 +1,24 @@
 const { contextBridge, ipcRenderer } = require('electron');
+
 // All of the Node.js APIs are available in the preload process only.
-// window.addEventListener('DOMContentLoaded', () => {
-//     const replaceText = (selector, text) => {
-//       const element = document.getElementById(selector)
-//       if (element) element.innerText = `(${text})`
-//     }
-  
-//     for (const dependency of ['chrome', 'node', 'electron']) {
-//       replaceText(`${dependency}-version`, process.versions[dependency])
-//     }
-//   });
+window.addEventListener('DOMContentLoaded', () => {
+  //     const replaceText = (selector, text) => {
+  //       const element = document.getElementById(selector)
+  //       if (element) element.innerText = `(${text})`
+  //     }
+
+  //     for (const dependency of ['chrome', 'node', 'electron']) {
+  //       replaceText(`${dependency}-version`, process.versions[dependency])
+  //     }
   // electron bridge
-contextBridge.exposeInMainWorld('electronAPI', {
-  sendWindowAction: async (action) => {
-    const result = await ipcRenderer.invoke('window-action', action)
-    return result;
-  }
+  contextBridge.exposeInMainWorld('electronAPI', {
+    sendWindowAction: async (action) => {
+      const result = await ipcRenderer.invoke('window-action', action)
+      return result;
+    },
+    storeUserData: async (data) => {
+      const result = await ipcRenderer.invoke('store-user-data', data);
+      return result;
+    }
+  });
 });

@@ -1,4 +1,4 @@
-const { app, nativeImage, BrowserWindow, Tray, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, fs } = require('electron');
 const path = require('node:path');
 
 // main window
@@ -20,7 +20,7 @@ app.on('ready', () => {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
-// min max close buttons
+// window action buttons
 ipcMain.handle('window-action', (event, action) => {
   if (!mainWindow);
 
@@ -45,4 +45,9 @@ ipcMain.handle('window-action', (event, action) => {
     default:
       console.log(`Unknown action: ${action}`);
   };
+});
+// storing user data (for now just logging it)
+ipcMain.handle('store-user-data', async (event, data) => {
+  console.log(data);
+  return data;
 });

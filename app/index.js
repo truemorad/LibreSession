@@ -1,4 +1,5 @@
-const { app, BrowserWindow, ipcMain, fs } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, ipcRenderer, contextBridge } = require('electron');
+const fs = require('fs').promises;
 const path = require('node:path');
 
 // main window
@@ -46,8 +47,37 @@ ipcMain.handle('window-action', (event, action) => {
       console.log(`Unknown action: ${action}`);
   };
 });
-// storing user data (for now just logging it)
+// store user data
 ipcMain.handle('store-user-data', async (event, data) => {
-  console.log(data);
-  return data;
+  try {
+    // Create the user data directory path
+    const userDataPath = path.join(__dirname, 'userFiles');
+    const filePath = path.join(userDataPath, 'userStyle.json');
+    // Ensure the directory exists
+    await fs.mkdir(userDataPath, { recursive: true });
+    // Write updated styles back to file
+    await fs.writeFile(filePath, JSON.stringify(data));
+    return data;
+  } catch (error) {
+    console.error('Error in store-user-data:', error);
+    throw error;
+  }
+});
+// open external window for Links
+ipcMain.handle('open-external-window', (event, url) => {
+  shell.openExternal(url);
+});
+ipcMain.handle('get-data', (event, data) => {
+  if (data === "gimmestyle"){
+    try {
+      const userDataPath = path.join(__dirname, 'userFiles');
+      const fileData = fs.readFile(path.join(userDataPath, 'userStyle.json'), 'utf8');
+    } catch (error) {
+      if (error.code === 'ENOENT') {
+        console.log('File not found!');
+        return 'File not found!';
+      }
+    }
+    return fileData;
+  }
 });

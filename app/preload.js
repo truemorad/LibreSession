@@ -20,13 +20,12 @@ window.addEventListener('DOMContentLoaded', () => {
       const result = await ipcRenderer.invoke('store-user-data', style);
       return result;
     },
-    sendOpenExternalWindow: async (url) => {
+    openExternalWindow: async (url) => {
       const result = await ipcRenderer.invoke('open-external-window', url);
       return result;
     },
     getData: async (command) => {
       const result = await ipcRenderer.invoke('get-data', command);
-      console.log(result);
       return result;
     }
   });

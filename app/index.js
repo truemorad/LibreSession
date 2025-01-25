@@ -11,6 +11,7 @@ app.on('ready', () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true
+      // ,devTools: false
     },
     frame: false
   });
@@ -51,7 +52,7 @@ ipcMain.handle('window-action', (event, action) => {
 ipcMain.handle('store-user-data', async (event, data) => {
   try {
     // Create the user data directory path
-    const userDataPath = path.join(__dirname, 'userFiles');
+    const userDataPath = path.join(__dirname, 'db');
     const filePath = path.join(userDataPath, 'userStyle.json');
     // Ensure the directory exists
     await fs.mkdir(userDataPath, { recursive: true });
@@ -67,17 +68,17 @@ ipcMain.handle('store-user-data', async (event, data) => {
 ipcMain.handle('open-external-window', (event, url) => {
   shell.openExternal(url);
 });
-ipcMain.handle('get-data', (event, data) => {
+ipcMain.handle('get-data', async (event, data) => {
   if (data === "gimmestyle"){
     try {
-      const userDataPath = path.join(__dirname, 'userFiles');
-      const fileData = fs.readFile(path.join(userDataPath, 'userStyle.json'), 'utf8');
+      const userDataPath = path.join(__dirname, 'db');
+      const fileData = await fs.readFile(path.join(userDataPath, 'userStyle.json'));
+      const style = JSON.parse(fileData);
+      return style;
     } catch (error) {
       if (error.code === 'ENOENT') {
-        console.log('File not found!');
-        return 'File not found!';
+        return error;
       }
     }
-    return fileData;
   }
 });

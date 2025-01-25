@@ -69,14 +69,47 @@ html, body {
     background: var(--bgColor);
     overflow: hidden;
 }
-h1 {
+h1, h2 {
     color: var(--pm);
+}
+.filePath{
+    position: fixed;
+    display: flex;
+    width: 80%;
+    color: var(--acc-btn);
+    overflow-x: scroll;
+    direction: rtl;
+    
+    top: var(--per-mg);
+    left: calc(var(--per-mg) + 2rem);
+    transform: rotate(180deg);
+    scrollbar-width: none;
+    user-select: none;
+    app-region: no-drag;
+    -webkit-app-region: no-drag;
+}
+.filePath a {
+    font-size: 120%;
+    text-decoration: none;
+    color: var(--pm);
+    cursor: pointer;
+    transform: rotate(180deg);
 }
 .main {
     height: 93vh;
     overflow-y: scroll;
     overflow-x: hidden;
     scroll-behavior: smooth;
+}
+.btn-primary {
+    color: var(--pm) !important;
+    background-color: var(--btn-hvr);
+    border-color: var(--btn-hvr);
+    width: 8rem;
+}
+.btn-primary:hover {
+    background-color: var(--btn);
+    border-color: var(--btn-hvr);
 }
 /* toolbar */
 .toolbar{
@@ -95,21 +128,6 @@ h1 {
     border-radius: var(--rad);
     user-select: none;
 }
-.btnBar button {
-    background: none;
-    border: none;
-    margin-top: var(--per-mg);
-    margin-bottom: var(--per-mg);
-    size: 100px;
-    fill: var(--acc-btn);
-    padding-inline: 3px;
-    transition: var(--easeOut);
-}
-.btnBar button:hover {
-    fill: var(--acc-mixed);
-    transform: translateY(-5px);
-    transition: var(--easeIn);
-}
 #vaultIMG{
     margin-left: var(--per-mg);
 }
@@ -125,9 +143,30 @@ h1 {
     color: var(--acc-btn);
     display: inline-block;
 }
+.btnBar button {
+    background: none;
+    border: none;
+    margin-top: var(--per-mg);
+    margin-bottom: var(--per-mg);
+    size: 100px;
+    fill: var(--acc-btn);
+    padding-inline: 3px;
+    transition: var(--easeOut);
+}
+.btnBar button:hover {
+    fill: var(--acc-mixed);
+    transform: translateY(-5px);
+    transition: var(--easeIn);
+}
+.options {
+    margin-right: var(--per-mg);
+}
 /* options page */
 .optionsPage {
     position: fixed;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
     animation: pop 0.5s;
     width: 10rem;
     height: 100%;
@@ -138,13 +177,23 @@ h1 {
     background: var(--bg-tt);
     backdrop-filter: blur(20px);
     border-left: solid 1px var(--btn);
+    transition: var(--easeOut);
+}
+#optionsClose {
+    position: fixed;
+    user-select: none;
+    right: var(--per-mg);
+    background: var(--btn);
+    border-radius: 5px;
+    padding: 0px;
+    border: none;
+    cursor: pointer;
+    fill: var(--acc-btn);
+    animation: pop 0.5s;
 }
 @keyframes pop {
-	from { width: 0rem; }
-	to { width: 10rem; }
-}
-.options {
-    margin-right: var(--per-mg);
+	from { transform: translateX(10rem); }
+	to { transform: translateX(0); }
 }
 /* fixes */
 .no-margin {
@@ -152,6 +201,9 @@ h1 {
 }
 .hidden {
     opacity: 0;
+    width: 0px;
+    height: 0px;
+    border: none;
 }
 ::-webkit-scrollbar {
     width: 10px;

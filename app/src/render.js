@@ -1,19 +1,33 @@
+import { colorSwitcher } from "./utilities.js";
 const minBtn = document.getElementById('min-btn');
 const maxBtn = document.getElementById('max-btn');
 const closeBtn = document.getElementById('close-btn');
 const optionsBtn = document.getElementsByClassName('options')[0];
 const titleBar = document.getElementsByTagName('titleBar')[0];
 const optionsPage = document.createElement('div');
-optionsPage.innerHTML = '<div class="container"> <div class="row"> <div class="col-2 col-4-lg"><button id="optionsClose">Close</button></div> <div class="col-10 col-8-lg" id="main"> <input type="color" id="accentInput" value="#ff0000" /> <input type="color" id="bgInput" value="#fff000" /> </div> </div> </div>';
-optionsPage.className = 'optionsPage';
-
+optionsPage.innerHTML = '<div class="optionsPage"> <div class="col-12" id="main"> <button id="optionsClose"> <svg width="7.5mm" height="7.5mm" viewBox="0 0 7.5 7.5" version="1.1" id="svg1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" > <path id="path1" d="M 1.3291178,0.88986816 A 3.75,3.75 0 0 0 0.88418376,1.3368693 L 3.3279622,3.8059692 0.93482666,6.224943 A 3.75,3.75 0 0 0 1.3916463,6.656958 L 3.7703125,4.2524536 6.132959,6.6388713 A 3.75,3.75 0 0 0 6.5866781,6.2022054 L 4.2136963,3.8044189 6.6357707,1.3559896 A 3.75,3.75 0 0 0 6.1944539,0.90795492 L 3.7708293,3.3574178 Z" /> </svg> </button> <h2>Colors</h2> <label class="btn btn-primary" for="accentInput" ><input type="color" id="accentInput" class="hidden" />Tertiary</label > <label class="btn btn-primary" for="bgInput" ><input type="color" id="bgInput" class="hidden" />Background</label > </div> </div>';
+// document.addEventListener('keydown', (event) => {
+//   if ((event.ctrlKey || event.metaKey) && event.key === 'r') {
+//       // Prevent the default refresh
+//       event.preventDefault();
+//   }
+// });
+// ELECTRON BRIDGE  //
+// initialize style
+window.addEventListener('load', async () => {
+  if (!document.documentElement.getAttribute('style')) {
+  const style = await window.electronAPI.getData('gimmestyle');
+  document.documentElement.style.setProperty('--accColor', style['--accColor']);
+  document.documentElement.style.setProperty('--bgColor', style['--bgColor']);
+  document.documentElement.style.setProperty('--pm', style['--pm']);
+  }
+});
 // open external links
 const buttonLink = document.getElementById('linked');
   buttonLink.addEventListener('click', async (event) => {
     event.preventDefault();
-    const result = await window.electronAPI.sendOpenExternalWindow(buttonLink.getAttribute('href'));
+    const result = await window.electronAPI.openExternalWindow(buttonLink.getAttribute('href'));
     console.log(result);});
-// electron bridge
 // window action buttons
 minBtn.addEventListener('click', () => {
   window.electronAPI.sendWindowAction('min');
@@ -45,58 +59,12 @@ optionsBtn.addEventListener('click', () => {
   // colors
   const accColor = document.getElementById('accentInput');
   accColor.addEventListener('input', () => {
-    colorSwitcher(accColor);
+    const color = accColor.value;
+    colorSwitcher(color, 'acc');
   });
   const bgColor = document.getElementById('bgInput');
   bgColor.addEventListener('input', () => {
-    colorSwitcher(bgColor);
+    const color = bgColor.value;
+    colorSwitcher(color, 'bg');
   });
-  // color switcher
-  const colorSwitcher = async (element) => {
-    color = element.value;
-    colorRGB = toRGB(color);
-    if (element == bgColor) {
-        if (isDarkerThan(color, "#5e5e5e5e")) {
-          document.documentElement.style.setProperty('--pm', `rgb(255, 255, 255)`);
-        } else {
-          document.documentElement.style.setProperty('--pm', `rgb(0, 0, 0)`);
-        }
-      document.documentElement.style.setProperty('--bgColor', `rgb(${colorRGB.r}, ${colorRGB.g}, ${colorRGB.b})`);
-      styleProp();
-    }
-    if (element == accColor) {
-      document.documentElement.style.setProperty('--accColor', `rgb(${colorRGB.r}, ${colorRGB.g}, ${colorRGB.b})`);
-      styleProp();
-    }
-  };
-  // store user data
-  const styleProp = async () => {
-    const property = {"--accColor": document.documentElement.style.getPropertyValue('--accColor'),
-                      "--bgColor": document.documentElement.style.getPropertyValue('--bgColor'),
-                      "--pm": document.documentElement.style.getPropertyValue('--pm') };
-    console.log(property);
-    const result = await window.electronAPI.storeUserStyle(property);
-    console.log(result);
-  };
-  // Convert hex to RGB thanks claude
-  const toRGB = (hex) => {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return { r, g, b };
-  };
-  // handle the primary color based on the background color
-  function isDarkerThan(color, threshold) {
-    // Calculate relative luminance
-    const getLuminance = (r, g, b) => {
-      // Formula: 0.299R + 0.587G + 0.114B thanks stacks overflow
-      return (0.299 * r + 0.587 * g + 0.114 * b);
-    };
-    const rgb1 = toRGB(color);
-    const rgb2 = toRGB(threshold);
-    const luminance1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
-    const luminance2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
-
-    return luminance1 < luminance2;
-  };
 });

@@ -6,8 +6,9 @@ const path = require('node:path');
 let mainWindow;
 app.on('ready', () => {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 777,
+    minWidth: 777,
+    minHeight: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true
@@ -16,7 +17,19 @@ app.on('ready', () => {
     frame: false
   });
   // load html
-  mainWindow.loadFile('src/index.html');
+  mainWindow.loadFile('src/start.html');
+  fs.access('/path/to/file', fs.constants.F_OK, () => {
+    mainWindow.loadFile('src/index.html');
+    mainWindow.webContents.send('vault-exist', path);
+  });
+  // event listeners for mult max button
+  mainWindow.on('maximize', () => {
+    mainWindow.webContents.send('is-maximized');
+  });
+
+  mainWindow.on('unmaximize', () => {
+    mainWindow.webContents.send('is-unmaximized');
+  });
 });
 // close app when there is no windows
 app.on('window-all-closed', () => {
@@ -68,17 +81,20 @@ ipcMain.handle('store-user-data', async (event, data) => {
 ipcMain.handle('open-external-window', (event, url) => {
   shell.openExternal(url);
 });
+// get data with a command
 ipcMain.handle('get-data', async (event, data) => {
-  if (data === "gimmestyle"){
-    try {
-      const userDataPath = path.join(__dirname, 'db');
-      const fileData = await fs.readFile(path.join(userDataPath, 'userStyle.json'));
-      const style = JSON.parse(fileData);
-      return style;
-    } catch (error) {
-      if (error.code === 'ENOENT') {
-        return error;
-      }
-    }
+  switch (data) {
+    case "gimmestyle":
+      try{
+        const userDataPath = path.join(__dirname, 'db');
+        const fileData = await fs.readFile(path.join(userDataPath, 'userStyle.json'));
+        const style = JSON.parse(fileData);
+        return style;
+      } catch (err) {
+        console.log("NOSTYLE")
+      };
+
+    default:
+      console.log("get-data failed")
   }
 });

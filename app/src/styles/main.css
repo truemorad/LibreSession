@@ -63,7 +63,7 @@ btns button svg {
     fill: var(--acc-btn);
     transform: translate(-5px, 0px);
 }
-/* site */
+/* SITE */
 html, body {
     padding-top: calc(var(--margin) * 2);
     background: var(--bgColor);

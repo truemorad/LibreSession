@@ -1,0 +1,41 @@
+.row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-top: -2rem;
+}
+h1{
+    color: var(--pm);
+    font-size: 400%;
+    margin-left: 2rem;
+    white-space: pre-line;
+}
+.bla{
+    color: var(--acc-btn);
+    font-size: 120%;
+    margin-left: 2rem;
+    font-style: oblique;
+}
+.btn-base{
+    user-select: none;
+    margin-top: 2rem;
+    margin-left: 5%;
+    app-region: no-drag;
+    -webkit-app-region: no-drag;
+    color: var(--pm);
+    background: var(--btn);
+}
+.btn-base:hover,.btn-base:focus, .btn-base:focus-visible{
+    background-color: var(--btn-hvr);
+    color: var(--hence);
+}
+.btn-base.btn-base:active{
+    background-color: var(--bg-tt);
+    color: var(--acc-mixed);
+}
+#vault {
+    fill: var(--acc-btn);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}

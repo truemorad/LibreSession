@@ -72,6 +72,23 @@ label{
     color: var(--pm);
     margin-top: 10px;
 }
+textarea{
+    background: var(--btn);
+    color: var(--pm);
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+    height: 35px;
+    resize: none;
+}
+textarea::placeholder{
+    color: var(--hence);
+}
+textarea:focus-visible{
+    outline-color: var(--acc-btn);
+    outline-style: double;
+}
 .createVault{
     margin-top: 20px;
     width: 100%;

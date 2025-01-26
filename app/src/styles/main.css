@@ -116,25 +116,29 @@ h1, h2 {
     fill: var(--acc-btn);
     animation: pop-out 0.5s;
 }
-/* fixes */
-.no-margin {
-    margin: 0px !important;
+#preview {
+    color: var(--pm);
+    word-wrap: break-word;
 }
-.hidden {
-    opacity: 0;
-    width: 0px;
-    height: 0px;
+#markdown-input {
+    height: 83vh;
+    background: var(--btn);
+    color: var(--pm);
     border: none;
+    padding: 5px;
+    border-radius: 5px;
+    resize: none;
 }
-::-webkit-scrollbar {
-    width: 10px;
+#markdown-input::placeholder {
+    color: var(--hence);
 }
-::-webkit-scrollbar-thumb {
-    background-color: var(--acc-btn);
+#markdown-input:focus-visible {
+    outline-color: var(--acc-btn);
+    outline-style: double;
 }
-::-webkit-scrollbar-thumb:hover {
-    background-color: var(--acc-mixed);
-}
-::-webkit-scrollbar-track {
-    background-color: var(--btn);
+#inlineCode{
+    background: var(--btn);
+    color: var(--acc-btn);
+    padding: 0.2rem;
+    border-radius: 0.2rem;
 }

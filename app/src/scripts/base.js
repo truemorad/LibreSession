@@ -1,3 +1,5 @@
+import { s5Removal } from "./utilities.js";
+
 const minBtn = document.getElementById('min-btn');
 const maxBtn = document.getElementById('max-btn');
 const closeBtn = document.getElementById('close-btn');

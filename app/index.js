@@ -4,6 +4,7 @@ const path = require('node:path');
 
 // main window
 let mainWindow;
+let dirPath;
 app.on('ready', () => {
   mainWindow = new BrowserWindow({
     width: 777,
@@ -18,9 +19,9 @@ app.on('ready', () => {
   });
   // load html
   mainWindow.loadFile('src/start.html');
-  fs.access('/path/to/file', fs.constants.F_OK, () => {
+  fs.access(dirPath, fs.constants.F_OK, () => {
     mainWindow.loadFile('src/index.html');
-    mainWindow.webContents.send('vault-exist', path);
+    mainWindow.webContents.send('vault-exist', dirPath);
   });
   // event listeners for mult max button
   mainWindow.on('maximize', () => {
@@ -78,8 +79,19 @@ ipcMain.handle('store-user-data', async (event, data) => {
   }
 });
 // open external window for Links
-ipcMain.handle('open-external-window', (event, url) => {
-  shell.openExternal(url);
+ipcMain.handle('open-external-window', async (event, url) => {
+  try {
+    // Validate URL before opening
+    const validUrlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+    if (!validUrlPattern.test(url)) {
+      return 'wrong';
+    }
+    // Ensure URL starts with protocol
+    const formattedUrl = url.startsWith('http') ? url : `https://${url}`;
+    await shell.openExternal(formattedUrl);
+  } catch (error) {
+    return error;
+  }
 });
 // get data with a command
 ipcMain.handle('get-data', async (event, data) => {
@@ -100,12 +112,17 @@ ipcMain.handle('get-data', async (event, data) => {
 });
 // handle location path
 ipcMain.handle('get-location', async() => {
-  const result = await dialog.showOpenDialog({ properties: ['openDirectory'] });
-  return result.filePaths;
+  dirPath = await dialog.showOpenDialog({ properties: ['openDirectory'] });
+  return dirPath.filePaths;
 })
 // handle vault creation
 ipcMain.handle('create-vault', async (event, origpath, name) => {
-  const filePath = path.join(origpath, name);
-  await fs.mkdir(filePath, { recursive: true });
+  dirPath = path.join(origpath, name);
+  await fs.mkdir(dirPath, { recursive: true });
   mainWindow.loadFile('src/index.html');
+})
+// store text in md file
+ipcMain.handle('store-md', async (event, text) => {
+  const filePath = path.join(dirPath, 'userNote.md');
+  await fs.writeFile(filePath, text);
 })

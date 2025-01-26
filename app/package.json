@@ -15,9 +15,9 @@
       "category": "public.app-category.developer-tools"
     },
     "directories": {
-    "output": "Dist",
-    "buildResources": "Icons"
-  }
+      "output": "Dist",
+      "buildResources": "Icons"
+    }
   },
   "win": {
     "asar": false,
@@ -25,9 +25,9 @@
     "icon": "Icons/icon.ico"
   },
   "nsis": {
-      "installerIcon": "Icons/Icon.png",
-      "deleteAppDataOnUninstall": true
-    },
+    "installerIcon": "Icons/Icon.png",
+    "deleteAppDataOnUninstall": true
+  },
   "linux": {
     "icon": "build/icon.png"
   },
@@ -39,5 +39,8 @@
   "devDependencies": {
     "electron": "^33.2.1",
     "electron-builder": "^25.1.8"
+  },
+  "dependencies": {
+    "marked": "^15.0.6"
   }
 }

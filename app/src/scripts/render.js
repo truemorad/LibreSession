@@ -1,5 +1,5 @@
-import { colorSwitcher } from "./utilities.js";
-
+import { colorSwitcher, s5Removal, externalLinks } from "./utilities.js";
+import { MarkdownProcessor } from './markdown.js';
 const optionsBtn = document.getElementsByClassName('options')[0];
 const titleBar = document.getElementsByTagName('titleBar')[0];
 const optionsPage = document.createElement('div');
@@ -25,9 +25,15 @@ optionsBtn.addEventListener('click', () => {
     colorSwitcher(color, 'bg');
   });
 });
-// open external links
-const buttonLink = document.getElementById('linked');
-  buttonLink.addEventListener('click', async (event) => {
-    event.preventDefault();
-    const result = await window.electronAPI.openExternalWindow(buttonLink.getAttribute('href'));
-    console.log(result);});
+// markdown
+const processor = new MarkdownProcessor();
+const input = document.getElementById('markdown-input');
+const preview = document.getElementById('preview');
+input.addEventListener('keyup', () => {
+  // store it
+  window.electronAPI.storeMD(input.value);
+  console.log(input.value)
+  const links = document.getElementsByTagName('a');
+  preview.innerHTML = processor.compile(input.value);
+  externalLinks(links);
+});

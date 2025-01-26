@@ -62,4 +62,19 @@ const s5Removal = (object) => {
       object.remove();
     }, 5000);
 }
-export {colorSwitcher, utilLocation, s5Removal, vaultMaker};
+// open external links
+const externalLinks = (links) => {
+    Array.from(links).forEach(link => {
+      link.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const result = await window.electronAPI.openExternalWindow(link.getAttribute('href'));
+        if (result === 'wrong') {
+          const alert = document.createElement('div');
+          alert.innerHTML = '<div class="plz alert alert-danger">Link is not correct</div>';
+          document.body.appendChild(alert);
+          s5Removal(alert);
+        }
+      });
+    });
+  }
+export {colorSwitcher, utilLocation, s5Removal, vaultMaker, externalLinks};

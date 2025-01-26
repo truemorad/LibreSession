@@ -31,6 +31,14 @@ window.addEventListener('DOMContentLoaded', () => {
     getVault: async () => {
       const result = await ipcRenderer.invoke('get-vault');
       return result;
+    },
+    getLocation: async () => {
+      const result = await ipcRenderer.invoke('get-location');
+      return result;
+    },
+    createVault: async () => {
+      const result = await ipcRenderer.invoke('create-vault');
+      return result;
     }
   });
 });

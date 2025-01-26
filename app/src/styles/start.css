@@ -5,8 +5,10 @@
     height: 100%;
     margin-top: -2rem;
 }
-h1{
+h1, h4 {
     color: var(--pm);
+}
+h1{
     font-size: 400%;
     margin-left: 2rem;
     white-space: pre-line;
@@ -17,25 +19,60 @@ h1{
     margin-left: 2rem;
     font-style: oblique;
 }
-.btn-base{
-    user-select: none;
+.vaulty{
+    width: 20rem;
     margin-top: 2rem;
     margin-left: 5%;
-    app-region: no-drag;
-    -webkit-app-region: no-drag;
-    color: var(--pm);
-    background: var(--btn);
-}
-.btn-base:hover,.btn-base:focus, .btn-base:focus-visible{
-    background-color: var(--btn-hvr);
-    color: var(--hence);
-}
-.btn-base.btn-base:active{
-    background-color: var(--bg-tt);
-    color: var(--acc-mixed);
 }
 #vault {
     fill: var(--acc-btn);
     margin-top: 1rem;
     margin-bottom: 1rem;
+}
+.createVaultMenu{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #00000052;
+    backdrop-filter: blur(5px);  
+    top: 0px;
+    right: 0px;
+    height: 100vh;
+    width: 100vw;
+    animation: pop-out 0.2s;
+}
+.Menu {
+    justify-content: center;
+    align-items: center;
+    width: 20rem;
+    padding: 1rem;
+    backdrop-filter: blur(0px);
+    background: var(--bgColor);
+    border: 1px solid var(--acc-btn);
+    border-radius: 10px;
+}
+.closeVaultMenu{
+    position: fixed;
+    right: 1rem;
+    top: 0.9rem;
+    height: var(--in-title);
+    width: var(--in-title);
+    background: none;
+    border: none;
+}
+.closeVaultMenu svg {
+    fill: var(--acc-mixed);
+}
+.closeVaultMenu:hover svg {
+    fill: var(--acc-btn);
+}
+label{
+    user-select: none;
+    color: var(--pm);
+    margin-top: 10px;
+}
+.createVault{
+    margin-top: 20px;
+    width: 100%;
 }

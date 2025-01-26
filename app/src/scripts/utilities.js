@@ -46,4 +46,9 @@ const styleProp = async () => {
     const result = await window.electronAPI.storeUserStyle(property);
     console.log(result);
 };
-export {colorSwitcher};
+// get location 
+const utilLocation = async() => {
+    const result = await window.electronAPI.getLocation();
+    return result;
+};
+export {colorSwitcher, utilLocation};

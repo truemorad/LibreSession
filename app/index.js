@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell, ipcRenderer, contextBridge } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, dialog } = require('electron');
 const fs = require('fs').promises;
 const path = require('node:path');
 
@@ -98,3 +98,8 @@ ipcMain.handle('get-data', async (event, data) => {
       console.log("get-data failed")
   }
 });
+// handle location path
+ipcMain.handle('get-location', async() => {
+  const result = await dialog.showOpenDialog({ properties: ['openDirectory'] });
+  return result.filePaths;
+})

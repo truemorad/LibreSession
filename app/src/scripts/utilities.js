@@ -51,4 +51,15 @@ const utilLocation = async() => {
     const result = await window.electronAPI.getLocation();
     return result;
 };
-export {colorSwitcher, utilLocation};
+// make a vault
+const vaultMaker = async (path, name) => {
+    const result = await window.electronAPI.createVault(path, name);
+    return result;
+}
+// remove after 10 seconds
+const s5Removal = (object) => {
+    setTimeout(() => {
+      object.remove();
+    }, 5000);
+}
+export {colorSwitcher, utilLocation, s5Removal, vaultMaker};

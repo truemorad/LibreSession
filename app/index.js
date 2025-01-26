@@ -103,3 +103,9 @@ ipcMain.handle('get-location', async() => {
   const result = await dialog.showOpenDialog({ properties: ['openDirectory'] });
   return result.filePaths;
 })
+// handle vault creation
+ipcMain.handle('create-vault', async (event, origpath, name) => {
+  const filePath = path.join(origpath, name);
+  await fs.mkdir(filePath, { recursive: true });
+  mainWindow.loadFile('src/index.html');
+})

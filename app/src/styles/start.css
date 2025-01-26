@@ -49,7 +49,7 @@ h1{
     padding: 1rem;
     backdrop-filter: blur(0px);
     background: var(--bgColor);
-    border: 1px solid var(--acc-btn);
+    border: 1px solid var(--btn);
     border-radius: 10px;
 }
 .closeVaultMenu{
@@ -75,4 +75,20 @@ label{
 .createVault{
     margin-top: 20px;
     width: 100%;
+}
+.plz {
+    top: -90vh;
+    width: fit-content;
+    margin: 0 auto;
+    animation: show-down 0.5s;
+    user-select: none;
+}
+#Checkmark{
+    fill: var(--acc-mixed);
+    margin-left: 1rem;
+    animation: pop-out 0.3s;
+}
+@keyframes show-down {
+    from { top: -110vh; }
+    to { top: -90vh; }
 }

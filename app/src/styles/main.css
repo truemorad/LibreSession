@@ -6,22 +6,16 @@ h1, h2 {
     display: flex;
     width: 80%;
     color: var(--acc-btn);
-    overflow-x: scroll;
-    direction: rtl;
     top: var(--per-mg);
     left: calc(var(--per-mg) + 2rem);
-    transform: rotate(180deg);
     scrollbar-width: none;
     user-select: none;
-    app-region: no-drag;
-    -webkit-app-region: no-drag;
 }
-.filePath a {
+.fileInfo {
     font-size: 120%;
     text-decoration: none;
     color: var(--pm);
     cursor: pointer;
-    transform: rotate(180deg);
 }
 .btn-primary {
     color: var(--pm) !important;
@@ -128,6 +122,9 @@ h1, h2 {
     padding: 5px;
     border-radius: 5px;
     resize: none;
+    white-space: pre-wrap;
+    display: inline-block;
+    width: 100%;
 }
 #markdown-input::placeholder {
     color: var(--hence);

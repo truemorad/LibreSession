@@ -28,8 +28,8 @@ window.addEventListener('DOMContentLoaded', () => {
       const result = await ipcRenderer.invoke('get-data', command);
       return result;
     },
-    getVault: async () => {
-      const result = await ipcRenderer.invoke('get-vault');
+    getVault: async (path) => {
+      const result = await ipcRenderer.invoke('get-vault', path);
       return result;
     },
     storeMD: async (text) => {

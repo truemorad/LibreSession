@@ -1,11 +1,11 @@
 const { app, BrowserWindow, ipcMain, shell, dialog } = require('electron');
 const fs = require('fs').promises;
 const path = require('node:path');
+const { json } = require('node:stream/consumers');
 
 // main window
 let mainWindow;
-let dirPath;
-app.on('ready', () => {
+app.on('ready', async () => {
   mainWindow = new BrowserWindow({
     width: 777,
     minWidth: 777,
@@ -18,11 +18,14 @@ app.on('ready', () => {
     frame: false
   });
   // load html
-  mainWindow.loadFile('src/start.html');
-  fs.access(dirPath, fs.constants.F_OK, () => {
+  try{
+    scan = await fs.readFile(path.join(path.join(__dirname, 'db'), 'userPath.json'));
+    dirPath = JSON.parse(scan)
     mainWindow.loadFile('src/index.html');
-    mainWindow.webContents.send('vault-exist', dirPath);
-  });
+    mainWindow.webContents.send('vault-exist', dirPath.path);
+  } catch (error) {
+    mainWindow.loadFile('src/start.html');
+  }
   // event listeners for mult max button
   mainWindow.on('maximize', () => {
     mainWindow.webContents.send('is-maximized');
@@ -114,15 +117,33 @@ ipcMain.handle('get-data', async (event, data) => {
 ipcMain.handle('get-location', async() => {
   dirPath = await dialog.showOpenDialog({ properties: ['openDirectory'] });
   return dirPath.filePaths;
-})
+});
 // handle vault creation
 ipcMain.handle('create-vault', async (event, origpath, name) => {
-  dirPath = path.join(origpath, name);
-  await fs.mkdir(dirPath, { recursive: true });
+  dirPath = {path: path.join(origpath, name)};
+  await fs.mkdir(path.join(origpath, name), { recursive: true });
+  vaultStore(dirPath);
   mainWindow.loadFile('src/index.html');
-})
+});
+// handle vault loading
+ipcMain.handle('get-vault', async (event, origPath) => {
+  dirPath = origPath;
+  if (Array.isArray(dirPath) && dirPath.length === 0) {
+    return 'Select A Folder Please'
+  } else {
+    mainWindow.loadFile('src/index.html');
+    vaultStore(dirPath[0]);
+  };
+});
 // store text in md file
 ipcMain.handle('store-md', async (event, text) => {
-  const filePath = path.join(dirPath, 'userNote.md');
+  const filePath = path.join(dirPath.path, 'userNote.md');
   await fs.writeFile(filePath, text);
-})
+});
+// storing vault path
+const vaultStore = async (object) => {
+  const jsonPath = {path: object};
+  const userDataPath = path.join(__dirname, 'db');
+  const filePath = path.join(userDataPath, 'userPath.json');
+  await fs.writeFile(filePath, JSON.stringify(jsonPath));
+}

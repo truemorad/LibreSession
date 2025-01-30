@@ -91,6 +91,13 @@ html, body {
     background-color: var(--bg-tt);
     color: var(--acc-mixed);
 }
+code {
+    color: var(--acc-btn);
+    background-color: var(--bg-tt);
+}
+a {
+    color: var(--accColor) !important;
+}
 /* fixes */
 .plz {
     top: -90vh;

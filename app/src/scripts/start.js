@@ -38,7 +38,7 @@ createVault.addEventListener('click', () => {
 });
 
 openVault.addEventListener('click', async () => {
-    const path = await utilLocation();
-    const result = await window.electronAPI.getVault(path);
+    const pathy = await utilLocation();
+    const result = await window.electronAPI.getVault(pathy);
     console.log(result);
 });

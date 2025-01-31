@@ -43,6 +43,9 @@ window.addEventListener('DOMContentLoaded', () => {
     },
     createVault: async (path, name) => {
       await ipcRenderer.invoke('create-vault', path, name);
+    },
+    closeVault: async() => {
+      await ipcRenderer.invoke('close-vault');
     }
   });
   // recieve from main

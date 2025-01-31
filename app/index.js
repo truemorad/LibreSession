@@ -1,7 +1,6 @@
 const { app, BrowserWindow, ipcMain, shell, dialog } = require('electron');
 const fs = require('fs').promises;
 const path = require('node:path');
-const { json } = require('node:stream/consumers');
 
 // main window
 let mainWindow;
@@ -127,23 +126,32 @@ ipcMain.handle('create-vault', async (event, origpath, name) => {
 });
 // handle vault loading
 ipcMain.handle('get-vault', async (event, origPath) => {
-  dirPath = origPath;
   if (Array.isArray(dirPath) && dirPath.length === 0) {
     return 'Select A Folder Please'
   } else {
+    vaultStore(origPath);
     mainWindow.loadFile('src/index.html');
-    vaultStore(dirPath[0]);
   };
+});
+// handle vault terminating
+ipcMain.handle('close-vault', () => {
+  mainWindow.loadFile('src/start.html');
+  vaultDel();
 });
 // store text in md file
 ipcMain.handle('store-md', async (event, text) => {
-  const filePath = path.join(dirPath.path, 'userNote.md');
+  const filePath = path.join(dirPath.path, 'userFile.md')
   await fs.writeFile(filePath, text);
 });
 // storing vault path
 const vaultStore = async (object) => {
-  const jsonPath = {path: object};
+  const jsonPath = {path: object[0]};
   const userDataPath = path.join(__dirname, 'db');
   const filePath = path.join(userDataPath, 'userPath.json');
   await fs.writeFile(filePath, JSON.stringify(jsonPath));
+  dirPath.path = object[0];
+}
+// deleting vault path
+const vaultDel = async() => {
+  await fs.rm(path.join(path.join(__dirname, 'db'), 'userPath.json'));
 }

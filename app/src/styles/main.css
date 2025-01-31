@@ -19,13 +19,14 @@ h1, h2 {
 }
 .btn-primary {
     color: var(--pm) !important;
-    background-color: var(--btn-hvr);
-    border-color: var(--btn-hvr);
+    background-color: var(--btn-hvr) !important;
+    border: 1px solid var(--btn-hvr) !important;
     width: 8rem;
+    transition: none !important;
 }
 .btn-primary:hover {
-    background-color: var(--btn);
-    border-color: var(--btn-hvr);
+    background-color: var(--btn) !important;
+    transform: none !important;
 }
 .btn-primary:active, .btn-primary:focus-visible {
     background-color: var(--bg-tt) !important;
@@ -48,10 +49,10 @@ h1, h2 {
     border-radius: var(--rad);
     user-select: none;
 }
-#vaultIMG{
+#vaultBut{
     margin-left: var(--per-mg);
 }
-#vaultIMG:hover{
+#vaultBut:hover{
     transform: none;
     animation: roll 0.5s;
 }
@@ -137,9 +138,29 @@ h1, h2 {
     outline-color: var(--acc-btn);
     outline-style: double;
 }
-#inlineCode{
+code{
+    display: inline-block;
     background: var(--btn);
     color: var(--acc-btn);
-    padding: 0.2rem;
+    padding: 0.3rem;
+    border: 1px solid var(--acc-btn);
     border-radius: 0.2rem;
+}
+#contextMenu {
+    position: absolute;
+    background: var(--bg-tt);
+    border: solid 1px var(--btn-hvr);
+    border-radius: var(--rad);
+    width: 10rem;
+    padding: 0.5rem;
+    padding-left: 0.9rem;
+    top: 0;
+    transform: translateY(-100%);
+    justify-content: center;
+    align-items: center;
+    animation: pop-out 0.3s;
+}
+@keyframes pop-out {
+    from { opacity: 0; width: 0rem;}
+    to { opacity: 1;}
 }

@@ -9,7 +9,6 @@ class MarkdownProcessor {
 
     preprocessLists(text) {
         const lines = text.split('\n');
-        console.log(lines);
         let inOrderedList = false;
         let inUnorderedList = false;
         let processedLines = [];
